@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { pokemonClient, localClient } from "./servers";
+
+import { PokemonSearch } from './components/PokemonSearch';
+
+const LIST_QUERY = gql`
+  query Pokemons ($limit: Int!){
+    pokemon_v2_pokemon (limit: $limit){
+      id
+      name
+      height
+    }
+  }
+`;
+
+const USER_QUERY = gql `
+query Users {
+  users {
+    name
+    email
+    id
+  }
+}
+`;
 
 function App() {
+
+/*   // Consulta a localServerLink
+  const {
+    loading: loading1,
+    error: error1,
+    data: data1,
+  } = useQuery(USER_QUERY, {
+    client: localClient,
+  }); */
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PokemonSearch/>
     </div>
   );
 }
