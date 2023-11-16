@@ -1,7 +1,9 @@
 import React, { useState }  from  'react';
 import { useQuery, gql } from '@apollo/client';
 import { pokemonClient } from "../servers";
+import {Input} from '@nextui-org/react'
 import PokemonPreview from './PokemonPreview';
+import PokemonTeam from './PokemonTeam';
 
 
 const GET_POKEMON_BY_ID_QUERY = gql`
@@ -33,15 +35,20 @@ export function PokemonSearch () {
   });
 
   return (
-    <div>
-      <input
+    <div className='container max-w-4xl mx-auto'>
+      <h2 className='text-4xl w-full text-center mb-10'>Pokemon Search</h2>
+      <Input
+        className='mb-10 max-w-[220px]'
+        placeholder="Enter a pokemon ID"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setPokemonId(parseInt(e.target.value))
         }
         value={pokemonId.toString()}
         type="number"
+        variant="flat"
       />
       <PokemonPreview data={data}/>
+      <PokemonTeam/>
     </div>
   );
 }
