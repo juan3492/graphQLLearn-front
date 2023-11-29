@@ -4,6 +4,7 @@ import { pokemonClient } from "../servers";
 import {Input} from '@nextui-org/react'
 import PokemonPreview from './PokemonPreview';
 import PokemonTeam from './PokemonTeam';
+import useLocalServer from '../hooks/useLocalServer';
 
 
 const GET_POKEMON_BY_ID_QUERY = gql`
@@ -34,11 +35,25 @@ export function PokemonSearch () {
     client: pokemonClient,
   });
 
+  const {
+    pokemonTeam,
+    pokemonTeamLoading,
+    pokemonTeamError,
+    
+    addPokemon,
+    addPokemonLoading,
+    addPokemonError,
+
+    deletePokemon,
+    deletePokemonLoading,
+    deletePokemonError,
+  } = useLocalServer();
+
   return (
-    <div className='container max-w-4xl mx-auto'>
-      <h2 className='text-4xl w-full text-center mb-10'>Pokemon Search</h2>
+    <div className="container max-w-4xl mx-auto">
+      <h2 className="text-4xl w-full text-center mb-10">Pokemon Search</h2>
       <Input
-        className='mb-10 max-w-[220px]'
+        className="mb-10 max-w-[220px]"
         placeholder="Enter a pokemon ID"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setPokemonId(parseInt(e.target.value))
@@ -47,8 +62,20 @@ export function PokemonSearch () {
         type="number"
         variant="flat"
       />
-      <PokemonPreview data={data}/>
-      <PokemonTeam/>
+      <PokemonPreview
+        data={data}
+        addPokemon={addPokemon}
+        addPokemonLoading={addPokemonLoading}
+        addPokemonError={addPokemonError}
+      />
+      <PokemonTeam
+        pokemonTeam={pokemonTeam}
+        pokemonTeamLoading={pokemonTeamLoading}
+        pokemonTeamError={pokemonTeamError}
+        deletePokemon={deletePokemon}
+        deletePokemonLoading={deletePokemonLoading}
+        deletePokemonError={deletePokemonError}
+      />
     </div>
   );
 }

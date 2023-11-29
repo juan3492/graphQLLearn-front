@@ -3,33 +3,16 @@ import { gql, useMutation } from "@apollo/client";
 import { localClient } from "../servers";
 import { ResponseData } from "../interfaces/pokemonInterfaces";
 import { Spinner, Progress, Button, Card, CardBody } from "@nextui-org/react";
+import { ApolloError } from "@apollo/client";
 
 interface PokemonPreviewProps {
-  data: ResponseData;
+  data: ResponseData,
+  addPokemon: any,
+  addPokemonLoading: boolean | undefined,
+  addPokemonError: ApolloError | undefined,
 }
 
-const ADD_POKEMON_MUTATION = gql`
-  mutation AddPokemon($input: PokemonInput!) {
-    addPokemon(input: $input) {
-      id
-      name
-      types {
-        name
-      }
-      stats {
-        base_stat
-        stat {
-          name
-        }
-      }
-    }
-  }
-`;
-
-export default function PokemonPreview({ data }: PokemonPreviewProps) {
-  const [addPokemon, { loading, error }] = useMutation(ADD_POKEMON_MUTATION, {
-    client: localClient,
-  });
+export default function PokemonPreview({ data, addPokemon, addPokemonLoading, addPokemonError }: PokemonPreviewProps) {
 
   if (!data) {
     return <Spinner />;
